@@ -78,6 +78,9 @@ while cv2.waitKey(1) < 0 or False:
             confidence = scores[class_id]
             if confidence > 0.75:
                 print(classes[class_id])
+                print(detection[0])
+                print(detection[1])
+            
 
         # idxs = cv2.dnn.NMSBoxes(boxes, confidences, args["confidence"],args["threshold"])
 
@@ -85,43 +88,9 @@ while cv2.waitKey(1) < 0 or False:
         #     for a in idxs.flatten():
         #         text = "{}: {:.4f}".format(classes[class_id[a]], confidences[a])
         #         print(text)
-                
-        # if len(idxs) > 0:
-	    #     # loop over the indexes we are keeping
-	    #     for i in idxs.flatten():
-		#         # extract the bounding box coordinates
-        #         (x, y) = (boxes[i][0], boxes[i][1])
-		#         (w, h) = (boxes[i][2], boxes[i][3])
-
-		#         # draw a bounding box rectangle and label on the image
-		#         color = [int(c) for c in COLORS[classIDs[i]]]
-		#         cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
-		#         text = "{}: {:.4f}".format(classes[class_id[i]], confidences[i])
-    
+                 
     # apply non-maximum suppression algorithm on the bounding boxes
     indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
-    
-    # for i in indices:
-    #     i = i[0]
-    #     box = boxes[i]
-    #     x = box[0]
-    #     y = box[1]
-    #     w = box[2]
-    #     h = box[3]
-    #     if x<imgsize[0]/3:
-    #         WheelControl["l"] = -0.5
-    #         WheelControl["r"] = 0.5
-    #         print("left")
-    #     elif x>imgsize[0]*0.6666:
-    #         WheelControl["l"] = 0.5
-    #         WheelControl["r"] = -0.5
-    #         print("right")
-    #     else:
-    #         WheelControl["l"] = 0
-    #         WheelControl["r"] = 0
-    #         print("straight")
-        
-    #     SendMsgToServer(WheelControl)
    
     # Put efficiency information.
     t, _ = net.getPerfProfile()
