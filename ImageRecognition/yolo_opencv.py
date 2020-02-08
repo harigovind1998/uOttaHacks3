@@ -15,6 +15,9 @@ ap.add_argument('-s', '--server',
                 help = 'yes to connect to server, no to not', default='no')
 args = ap.parse_args()
 
+scores = None
+class_id = None
+confidence = None
 
 # Get names of output layers, output for YOLOv3 is ['yolo_16', 'yolo_23']
 def getOutputsNames(net):
@@ -73,16 +76,27 @@ while cv2.waitKey(1) < 0 or False:
             scores = detection[5:]#classes scores starts from index 5
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > 0.5:
-                center_x = int(detection[0] * Width)
-                center_y = int(detection[1] * Height)
-                w = int(detection[2] * Width)
-                h = int(detection[3] * Height)
-                x = center_x - w / 2
-                y = center_y - h / 2
-                class_ids.append(class_id)
-                confidences.append(float(confidence))
-                boxes.append([x, y, w, h])
+            if confidence > 0.75:
+                print(classes[class_id])
+
+        # idxs = cv2.dnn.NMSBoxes(boxes, confidences, args["confidence"],args["threshold"])
+
+        # if len(idxs) > 0:
+        #     for a in idxs.flatten():
+        #         text = "{}: {:.4f}".format(classes[class_id[a]], confidences[a])
+        #         print(text)
+                
+        # if len(idxs) > 0:
+	    #     # loop over the indexes we are keeping
+	    #     for i in idxs.flatten():
+		#         # extract the bounding box coordinates
+        #         (x, y) = (boxes[i][0], boxes[i][1])
+		#         (w, h) = (boxes[i][2], boxes[i][3])
+
+		#         # draw a bounding box rectangle and label on the image
+		#         color = [int(c) for c in COLORS[classIDs[i]]]
+		#         cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
+		#         text = "{}: {:.4f}".format(classes[class_id[i]], confidences[i])
     
     # apply non-maximum suppression algorithm on the bounding boxes
     indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
